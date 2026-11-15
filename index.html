@@ -131,6 +131,13 @@
   .prod .btn[aria-disabled=true]{background:#c9c5bd;pointer-events:none}
   .disclosure{font-size:13px;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:12px 14px;margin-bottom:26px;max-width:760px}
 
+  .consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);margin:4px 0 14px;line-height:1.45;text-align:left}
+  .consent input{margin-top:2px;width:16px;height:16px;flex:0 0 16px;accent-color:var(--orange)}
+  .consent a{color:var(--orange-d)}
+  .consent.light{color:#fff;flex-basis:100%;margin:0}
+  .consent.light a{color:#fff;font-weight:600}
+  .form-msg a{color:inherit;font-weight:700}
+
   footer{padding:46px 0 60px;color:var(--muted);font-size:14px}
   footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   footer .disc{max-width:620px;font-size:13px}
@@ -179,9 +186,11 @@
       <form class="lead-form" novalidate>
         <input class="field" type="text" name="name" placeholder="Prenumele tău" autocomplete="given-name">
         <input class="field" type="email" name="email" placeholder="Adresa ta de email" required autocomplete="email">
+        <label class="consent"><input type="checkbox" name="consimtamant" value="da" required> Sunt de acord să primesc checklist-ul și sfaturi pe email. Am citit <a href="politica-confidentialitate.html" target="_blank">Politica de confidențialitate</a>.</label>
+        <input type="hidden" name="_subject" value="Abonat nou – Casa Fără Surprize">
         <button class="btn" type="submit">Trimite-mi checklist-ul gratuit</button>
         <div class="form-msg" role="status"></div>
-        <p class="fine">Primești checklist-ul pe email și sfaturi săptămânale. Te poți dezabona oricând.</p>
+        <p class="fine">Descarci checklist-ul imediat și primești sfaturi pe email. Te poți dezabona oricând.</p>
       </form>
     </div>
   </div>
@@ -255,7 +264,7 @@
     <details><summary>Am nevoie de diriginte de șantier?</summary><p>Pentru lucrările care necesită autorizație de construire, legea cere ca beneficiarul să asigure verificarea execuției prin diriginte de șantier atestat. Pe lângă obligație, este omul care verifică în numele tău ce face constructorul.</p></details>
     <details><summary>Cât avans e normal să dau constructorului?</summary><p>Nu există o regulă fixă, dar un avans mare fără garanții este unul dintre cele mai frecvente riscuri. Leagă plățile de etape finalizate și verificate (situații de lucrări), nu de calendar.</p></details>
     <details><summary>Cum compar două oferte de la constructori?</summary><p>Cere ca ambele oferte să fie pe aceleași articole și cantități, cu materialele specificate (marcă, clasă, grosime). Un preț pe metru pătrat nu se poate compara corect.</p></details>
-    <details><summary>Checklist-ul e chiar gratuit?</summary><p>Da. Îl primești pe email, împreună cu sfaturi practice o dată pe săptămână. Te poți dezabona oricând.</p></details>
+    <details><summary>Checklist-ul e chiar gratuit?</summary><p>Da. Îl deschizi imediat după abonare și primești sfaturi practice pe email. Te poți dezabona oricând.</p></details>
   </div>
 </section>
 
@@ -269,6 +278,8 @@
       <form class="lead-form" novalidate>
         <input class="field" type="email" name="email" placeholder="Adresa ta de email" required autocomplete="email">
         <button class="btn" type="submit">Vreau checklist-ul</button>
+        <label class="consent light"><input type="checkbox" name="consimtamant" value="da" required> Sunt de acord să primesc checklist-ul și sfaturi pe email. Am citit <a href="politica-confidentialitate.html" target="_blank">Politica de confidențialitate</a>.</label>
+        <input type="hidden" name="_subject" value="Abonat nou – Casa Fără Surprize">
         <div class="form-msg" role="status"></div>
       </form>
     </div>
@@ -277,7 +288,7 @@
 
 <footer>
   <div class="wrap">
-    <div><strong style="color:var(--ink)">Casa Fără Surprize</strong><br>© 2026 · <a href="#">Politica de confidențialitate</a> · <a href="#">Termeni</a></div>
+    <div><strong style="color:var(--ink)">Casa Fără Surprize</strong><br>© 2026 · <a href="politica-confidentialitate.html">Politica de confidențialitate</a></div>
     <p class="disc">Informațiile de pe acest site au caracter general și educativ. Nu înlocuiesc consultanța unui arhitect, inginer, diriginte de șantier sau avocat. Pentru situația ta concretă, consultă un specialist autorizat.</p>
   </div>
 </footer>
@@ -286,7 +297,7 @@
   // ====== CONFIG ======
   // Pune aici URL-ul formularului (ex. Formspree: https://formspree.io/f/XXXX
   // sau endpoint-ul MailerLite / Brevo). Cât timp e gol, formularul rulează în mod demonstrativ.
-  const FORM_ENDPOINT = "";
+  const FORM_ENDPOINT = "https://formspree.io/f/mjywywjw";
 
   // ====== RECOMANDĂRI (afiliere) ======
   // Agentul „Vânătorul de oferte” îți dă lista în exact acest format: o înlocuiești pe cea de mai jos.
@@ -338,6 +349,7 @@
       const email = form.querySelector('[name=email]').value.trim();
       msg.className = 'form-msg';
       if (!emailOk(email)) { msg.textContent = 'Te rugăm să introduci o adresă de email validă.'; msg.classList.add('warn'); return; }
+      if (!form.querySelector('[name=consimtamant]').checked) { msg.textContent = 'Bifează căsuța de acord ca să-ți putem trimite checklist-ul.'; msg.classList.add('warn'); return; }
       if (!FORM_ENDPOINT) {
         msg.textContent = 'Mod demonstrativ: formularul nu este încă conectat la serviciul de email.';
         msg.classList.add('warn'); return;
@@ -346,7 +358,7 @@
       try {
         const res = await fetch(FORM_ENDPOINT, { method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form) });
         if (!res.ok) throw new Error();
-        msg.textContent = 'Gata! Verifică-ți emailul (și folderul Spam) pentru checklist.';
+        msg.innerHTML = 'Gata, mulțumim! 👉 <a href="checklist.html" target="_blank" rel="noopener">Deschide acum checklist-ul</a>';
         msg.classList.add('ok'); form.reset();
       } catch {
         msg.textContent = 'Ceva n-a mers. Încearcă din nou peste câteva minute.';
