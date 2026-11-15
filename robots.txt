@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://casafarasurprize.online/sitemap.xml
