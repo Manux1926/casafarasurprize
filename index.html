@@ -268,8 +268,8 @@
     </a>
     <a class="card" href="#recomandari">
       <div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L4 16.8V20h3.2l5.3-5.3a4 4 0 0 0 5.2-5.4l-2.5 2.5-2.5-.5-.5-2.5z"/></svg></div>
-      <h3>Unelte și materiale</h3>
-      <p>Produse utile ca să verifici singur lucrarea, selectate și comparate.</p>
+      <h3>Unelte și produse</h3>
+      <p>Unelte de verificare, uși, fotovoltaice, climatizare și casă inteligentă.</p>
       <span class="go">Vezi recomandările →</span>
     </a>
   </div>
@@ -280,8 +280,8 @@
     <div class="head">
       <div>
         <div class="eyebrow">Recomandări</div>
-        <h2 class="sec-h">Unelte utile pe șantier</h2>
-        <p class="sec-p">Cu ele verifici singur dacă lucrarea e făcută corect, înainte să plătești o etapă.</p>
+        <h2 class="sec-h">Unelte și produse pentru casa ta</h2>
+        <p class="sec-p">Unelte cu care verifici singur lucrarea și produse de care ai nevoie la o casă nouă.</p>
       </div>
       <div class="filters" id="filters"></div>
     </div>
@@ -376,12 +376,14 @@
   // ====== RECOMANDĂRI (afiliere) ======
   // url: linkul de afiliere (2Performant / Profitshare). Gol = butonul arată „Link în curând”.
   const PRODUCTS = [
-    { cat:"Verificare", name:"Nivelă laser cu linii în cruce", why:"Verifici dacă pereții, golurile și pardoseala sunt drepte.", price:"", oldPrice:"", store:"", url:"", badge:"" },
-    { cat:"Verificare", name:"Telemetru laser", why:"Măsori camerele și golurile și compari rapid cu proiectul.", price:"", oldPrice:"", store:"", url:"", badge:"" },
-    { cat:"Verificare", name:"Umidometru pentru pereți și șapă", why:"Afli dacă tencuiala sau șapa s-au uscat înainte de finisaje.", price:"", oldPrice:"", store:"", url:"", badge:"" },
-    { cat:"Verificare", name:"Cameră termografică pentru telefon", why:"Vezi punțile termice la izolație și ferestre, la recepție.", price:"", oldPrice:"", store:"", url:"", badge:"" },
-    { cat:"Organizare", name:"Biblioraft pentru actele casei", why:"Contract, devize, bonuri și procese-verbale într-un singur loc.", price:"", oldPrice:"", store:"", url:"", badge:"" },
-    { cat:"Siguranță", name:"Cască și bocanci de protecție", why:"Pentru vizitele pe șantier, care vor fi dese.", price:"", oldPrice:"", store:"", url:"", badge:"" }
+    { cat:"Verificare", name:"Nivelă laser Bosch UniversalLevel 3", why:"Linii în cruce cu autonivelare, cu stativ. Verifici dacă pereții, golurile și pardoseala sunt drepte.", store:"MatHaus", url:"https://l.profitshare.ro/l/17292550" },
+    { cat:"Verificare", name:"Telemetru laser", why:"Măsori camerele și golurile și compari rapid cu proiectul. Modele Bosch și alte mărci.", store:"MatHaus", url:"https://l.profitshare.ro/l/17292551", cta:"Vezi modelele" },
+    { cat:"Pentru casa nouă", name:"Uși interioare și de exterior", why:"Uși de intrare și de interior, cu dimensiuni standard pentru golurile din proiect.", store:"Novodoors", url:"https://l.profitshare.ro/l/17292545", cta:"Vezi ușile" },
+    { cat:"Pentru casa nouă", name:"Panouri fotovoltaice", why:"Sisteme solare și componente, util de planificat încă de la acoperiș și instalația electrică.", store:"Depozit Solar", url:"https://l.profitshare.ro/l/17292546", cta:"Vezi sistemele" },
+    { cat:"Pentru casa nouă", name:"Aer condiționat și pompe de căldură", why:"Alege sistemul de climatizare înainte de finisaje, ca traseele să fie pregătite din timp.", store:"AlecoAir", url:"https://l.profitshare.ro/l/17292547", cta:"Vezi modelele" },
+    { cat:"Pentru casa nouă", name:"Casă inteligentă", why:"Prize, senzori și automatizări. Ușor de integrat dacă le prevezi la instalația electrică.", store:"Case-smart", url:"https://l.profitshare.ro/l/17292548", cta:"Vezi produsele" },
+    { cat:"Verificare", name:"Umidometru pentru pereți și șapă", why:"Afli dacă tencuiala sau șapa s-au uscat înainte de finisaje.", store:"", url:"" },
+    { cat:"Verificare", name:"Cameră termografică pentru telefon", why:"Vezi punțile termice la izolație și ferestre, la recepție.", store:"", url:"" }
   ];
 
   const esc = s => String(s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -395,8 +397,8 @@
         `<div class="top"><span class="cat">${esc(p.cat)}</span>${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}</div>` +
         `<h3>${esc(p.name)}</h3><p class="why">${esc(p.why)}</p>` +
         (p.price ? `<div class="price">${esc(p.price)}${p.oldPrice ? `<s>${esc(p.oldPrice)}</s>` : ''}</div>` : '') +
-        (p.store ? `<div class="store">la ${esc(p.store)}</div>` : '') +
-        (p.url ? `<a class="btn" href="${esc(p.url)}" rel="sponsored noopener" target="_blank">Vezi oferta</a>`
+        (p.store ? `<div class="store">la ${esc(p.store)}</div>` : '<div class="store">&nbsp;</div>') +
+        (p.url ? `<a class="btn" href="${esc(p.url)}" rel="sponsored noopener" target="_blank">${esc(p.cta||'Vezi oferta')}</a>`
                : `<a class="btn" aria-disabled="true">Link în curând</a>`);
       box.appendChild(el);
     });
