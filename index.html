@@ -134,8 +134,15 @@
   .prods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   @media(max-width:900px){.prods{grid-template-columns:1fr 1fr}}
   @media(max-width:560px){.prods{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -22px;padding:4px 22px 14px}.prods .prod{flex:0 0 80%;scroll-snap-align:start}}
-  .prod{display:flex;flex-direction:column;padding:22px}
-  .prod .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .prod{display:flex;flex-direction:column}
+  .prod{padding:0 0 22px;overflow:hidden}
+  .prod > *:not(.pimg){margin-left:22px;margin-right:22px}
+  .prod .pimg{display:block;height:200px;background:#fff;border-bottom:1px solid var(--line);margin-bottom:16px;overflow:hidden}
+  .prod .pimg img{width:100%;height:100%;object-fit:contain;padding:18px;transition:transform .35s ease}
+  .prod .pimg.wide img{object-fit:cover;padding:0}
+  .prod:hover .pimg img{transform:scale(1.05)}
+  .prod .btn{margin-left:22px!important;margin-right:22px!important}
+    .prod .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
   .prod .cat{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
   .prod .badge{background:#fff4cf;color:#7a5a00;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px}
   .prod h3{font-size:17px}
@@ -376,14 +383,13 @@
   // ====== RECOMANDĂRI (afiliere) ======
   // url: linkul de afiliere (2Performant / Profitshare). Gol = butonul arată „Link în curând”.
   const PRODUCTS = [
-    { cat:"Verificare", name:"Nivelă laser Bosch UniversalLevel 3", why:"Linii în cruce cu autonivelare, cu stativ. Verifici dacă pereții, golurile și pardoseala sunt drepte.", store:"MatHaus", url:"https://l.profitshare.ro/l/17292550" },
-    { cat:"Verificare", name:"Telemetru laser", why:"Măsori camerele și golurile și compari rapid cu proiectul. Modele Bosch și alte mărci.", store:"MatHaus", url:"https://l.profitshare.ro/l/17292551", cta:"Vezi modelele" },
-    { cat:"Pentru casa nouă", name:"Uși interioare și de exterior", why:"Uși de intrare și de interior, cu dimensiuni standard pentru golurile din proiect.", store:"Novodoors", url:"https://l.profitshare.ro/l/17292545", cta:"Vezi ușile" },
-    { cat:"Pentru casa nouă", name:"Panouri fotovoltaice", why:"Sisteme solare și componente, util de planificat încă de la acoperiș și instalația electrică.", store:"Depozit Solar", url:"https://l.profitshare.ro/l/17292546", cta:"Vezi sistemele" },
-    { cat:"Pentru casa nouă", name:"Aer condiționat și pompe de căldură", why:"Alege sistemul de climatizare înainte de finisaje, ca traseele să fie pregătite din timp.", store:"AlecoAir", url:"https://l.profitshare.ro/l/17292547", cta:"Vezi modelele" },
-    { cat:"Pentru casa nouă", name:"Casă inteligentă", why:"Prize, senzori și automatizări. Ușor de integrat dacă le prevezi la instalația electrică.", store:"Case-smart", url:"https://l.profitshare.ro/l/17292548", cta:"Vezi produsele" },
-    { cat:"Verificare", name:"Umidometru pentru pereți și șapă", why:"Afli dacă tencuiala sau șapa s-au uscat înainte de finisaje.", store:"", url:"" },
-    { cat:"Verificare", name:"Cameră termografică pentru telefon", why:"Vezi punțile termice la izolație și ferestre, la recepție.", store:"", url:"" }
+    { cat:"Verificare", name:"Nivelă laser Bosch UniversalLevel 3", why:"Linii în cruce cu autonivelare, cu stativ. Verifici dacă pereții, golurile și pardoseala sunt drepte.", store:"MatHaus", url:"https://l.profitshare.ro/l/17292550", img:"https://cdn.mathaus.ro/medias/sys_master/images/h25/h2b/h00/9723799732254.jpg" },
+    { cat:"Verificare", name:"Telemetru laser", why:"Măsori camerele și golurile și compari rapid cu proiectul. Modele Bosch și alte mărci.", store:"MatHaus", url:"https://l.profitshare.ro/l/17292551", cta:"Vezi modelele", img:"https://cdn.mathaus.ro/medias/sys_master/images/h9d/hd4/h00/9527389454366.jpg" },
+    { cat:"Pentru casa nouă", name:"Dezumidificatoare", why:"Grăbesc uscarea tencuielii și a șapei și previn mucegaiul în primele luni după mutare.", store:"AlecoAir", url:"https://l.profitshare.ro/l/17292631", cta:"Vezi modelele", img:"https://alecoair.ro/media/catalog/product/cache/de3741a4c78682ffd348915bc15580e1/3/1/31452-d8_10_12junior-800-x-800px-tuv_ee7bl5vvr6djk95e.jpg" },
+    { cat:"Pentru casa nouă", name:"Uși interioare și de exterior", why:"Uși de intrare și de interior, cu dimensiuni standard pentru golurile din proiect.", store:"Novodoors", url:"https://l.profitshare.ro/l/17292545", cta:"Vezi ușile", img:"https://c.cdnmp.net/213453607/content/hero-images/novodoors_hero_800.webp?rv=1792184072", wide:true },
+    { cat:"Pentru casa nouă", name:"Panouri fotovoltaice", why:"Sisteme solare și baterii, util de planificat încă de la acoperiș și instalația electrică.", store:"Depozit Solar", url:"https://l.profitshare.ro/l/17292546", cta:"Vezi sistemele", img:"https://gomagcdn.ro/domains2/depozitsolar.ro/files/product/medium/panou-fotovoltaic-jinko-tiger-neo-475w-rama-neagra-jkm475n-48ql6-dv-n-type-232317.png" },
+    { cat:"Pentru casa nouă", name:"Întrerupătoare și prize cu touch", why:"Modele din sticlă și variante smart. Alege-le înainte de instalația electrică.", store:"Case-smart", url:"https://l.profitshare.ro/l/17292548", cta:"Vezi produsele", img:"https://case-smart.ro/wp-content/uploads/2022/06/001-intrerupator-simplu-cu-touch-din-sticla-luxion-lx-st-101g-w-alb-400x400.jpg" }
+    // În curând (după aprobarea eMAG): umidometru STIHL, cameră termografică Hikmicro Mini2 V2
   ];
 
   const esc = s => String(s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -394,6 +400,7 @@
       const el = document.createElement('div');
       el.className = 'card prod';
       el.innerHTML =
+        (p.img ? `<a class="pimg${p.wide?' wide':''}" href="${esc(p.url)}" rel="sponsored noopener" target="_blank" tabindex="-1"><img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></a>` : '') +
         `<div class="top"><span class="cat">${esc(p.cat)}</span>${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}</div>` +
         `<h3>${esc(p.name)}</h3><p class="why">${esc(p.why)}</p>` +
         (p.price ? `<div class="price">${esc(p.price)}${p.oldPrice ? `<s>${esc(p.oldPrice)}</s>` : ''}</div>` : '') +
