@@ -200,6 +200,7 @@
   .disc{font-size:13px}
   @media(max-width:760px){footer .wrap{grid-template-columns:1fr}}
 </style>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="058f4e66-811a-4f03-a044-f6a8a34dad64"></script>
 </head>
 <body>
 
@@ -405,7 +406,7 @@
         `<h3>${esc(p.name)}</h3><p class="why">${esc(p.why)}</p>` +
         (p.price ? `<div class="price">${esc(p.price)}${p.oldPrice ? `<s>${esc(p.oldPrice)}</s>` : ''}</div>` : '') +
         (p.store ? `<div class="store">la ${esc(p.store)}</div>` : '<div class="store">&nbsp;</div>') +
-        (p.url ? `<a class="btn" href="${esc(p.url)}" rel="sponsored noopener" target="_blank">${esc(p.cta||'Vezi oferta')}</a>`
+        (p.url ? `<a class="btn" href="${esc(p.url)}" rel="sponsored noopener" target="_blank" data-umami-event="click-afiliat" data-umami-event-magazin="${esc(p.store)}" data-umami-event-produs="${esc(p.name)}">${esc(p.cta||'Vezi oferta')}</a>`
                : `<a class="btn" aria-disabled="true">Link în curând</a>`);
       box.appendChild(el);
     });
@@ -449,7 +450,7 @@
         const res = await fetch(FORM_ENDPOINT, { method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form) });
         if (!res.ok) throw new Error();
         msg.innerHTML = 'Gata, mulțumim! 👉 <a href="checklist.html" target="_blank" rel="noopener">Deschide acum checklist-ul</a>';
-        msg.classList.add('ok'); form.reset();
+        msg.classList.add('ok'); form.reset(); try{ window.umami && umami.track('abonare-checklist'); }catch(_){}
       } catch {
         msg.textContent = 'Ceva n-a mers. Încearcă din nou peste câteva minute.';
         msg.classList.add('warn');
